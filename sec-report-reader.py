@@ -8,11 +8,11 @@ import socket
 import xlrd
 from xlutils.copy import copy
 
-fnamei = "report2.xlsx"
-fnameo = "report3.xlsx"
-rnd_nw = "10.12." # default pattern
-firstrow = 1 # second row
-dnscolumn = 1 # second column
+fnamei = ""
+fnameo = ""
+rnd_nw = "10.12." # default network pattern
+firstrow = 1 # default second row
+dnscolumn = 1 # default second column
 
 parser = argparse.ArgumentParser(description='This script read the first column of the given excel sheet and write back the reverse DNS to the second column')
 parser.add_argument('i', metavar='inputfile', action="store", help="input excel file name")
