@@ -8,8 +8,8 @@ import socket
 import xlrd
 from xlutils.copy import copy
 
-fnamei = ""
-fnameo = ""
+file_name_input = ""
+file_name_output = ""
 rnd_nw = "10.12." # default network pattern
 firstrow = 1 # default second row
 dnscolumn = 1 # default second column
@@ -22,11 +22,11 @@ parser.add_argument('--first_row', metavar='', action="store", help="first row w
 parser.add_argument('--dns_column', metavar='', action="store", help="dns column where we put the DNS names", type=int)
 
 if parser.parse_args().i:
-	fnamei = parser.parse_args().i
+	file_name_input = parser.parse_args().i
 if parser.parse_args().o:
-	fnameo = parser.parse_args().o
+	file_name_output = parser.parse_args().o
 else:
-	fnameo = fnamei
+	file_name_output = file_name_input
 if parser.parse_args().nw:
 	rnd_nw = parser.parse_args().nw
 if parser.parse_args().first_row:
@@ -49,7 +49,7 @@ def validateip(ipaddr):
 		return False
 	return True
 
-xbook1 = xlrd.open_workbook(fnamei)
+xbook1 = xlrd.open_workbook(file_name_input)
 xsheet1 = xbook1.sheet_by_index(0)
 nrows = xsheet1.nrows
 
@@ -68,4 +68,4 @@ for row_idx in range(firstrow, nrows):
 			#print(celly+';'+dname)
 			xsheet2.write(row_idx, dnscolumn, dname)
 
-xbook2.save(fnameo)
+xbook2.save(file_name_output)
