@@ -22,32 +22,32 @@ parser.add_argument('--first_row', metavar='', action="store", help="first row w
 parser.add_argument('--dns_column', metavar='', action="store", help="dns column where we put the DNS names", type=int)
 
 if parser.parse_args().i:
-	file_name_input = parser.parse_args().i
+    file_name_input = parser.parse_args().i
 if parser.parse_args().o:
-	file_name_output = parser.parse_args().o
+    file_name_output = parser.parse_args().o
 else:
-	file_name_output = file_name_input
+    file_name_output = file_name_input
 if parser.parse_args().nw:
-	rnd_nw = parser.parse_args().nw
+    rnd_nw = parser.parse_args().nw
 if parser.parse_args().first_row:
-	firstrow = parser.parse_args().first_row
+    firstrow = parser.parse_args().first_row
 if parser.parse_args().dns_column:
-	dnscolumn = parser.parse_args().dns_column
+    dnscolumn = parser.parse_args().dns_column
 
 
 def reversedns(cella):
-	revdns = reversename.from_address(cella)
-	try:
-		return str(resolver.query(revdns,"PTR")[0])
-	except resolver.NXDOMAIN as e:
-		return "NXDOMAIN"
+    revdns = reversename.from_address(cella)
+    try:
+        return str(resolver.query(revdns,"PTR")[0])
+    except resolver.NXDOMAIN as e:
+        return "NXDOMAIN"
 
 def validateip(ipaddr):
-	try:
-		socket.inet_aton(ipaddr)
-	except socket.error:
-		return False
-	return True
+    try:
+        socket.inet_aton(ipaddr)
+    except socket.error:
+        return False
+    return True
 
 xbook1 = xlrd.open_workbook(file_name_input)
 xsheet1 = xbook1.sheet_by_index(0)
@@ -59,13 +59,12 @@ xsheet2 = xbook2.get_sheet(0)
 dname = "reversednsfailed"
 #num_cols = xsheet.ncols
 for row_idx in range(firstrow, nrows):
-	ipvalid = True
-	celly = xsheet1.cell_value(row_idx, 0)
-	
-	if validateip(celly):
-		if celly[:len(rnd_nw)] == rnd_nw:
-			dname = reversedns(celly)
-			#print(celly+';'+dname)
-			xsheet2.write(row_idx, dnscolumn, dname)
+    celly = xsheet1.cell_value(row_idx, 0)
+    
+    if validateip(celly):
+        if celly[:len(rnd_nw)] == rnd_nw:
+            dname = reversedns(celly)
+            #print(celly+';'+dname)
+            xsheet2.write(row_idx, dnscolumn, dname)
 
 xbook2.save(file_name_output)
