@@ -57,14 +57,12 @@ xbook2 = copy(xbook1)
 xsheet2 = xbook2.get_sheet(0)
 
 dname = "reversednsfailed"
-#num_cols = xsheet.ncols
 for row_idx in range(firstrow, nrows):
     celly = xsheet1.cell_value(row_idx, 0)
     
     if validateip(celly):
         if celly[:len(rnd_nw)] == rnd_nw:
             dname = reversedns(celly)
-            #print(celly+';'+dname)
             xsheet2.write(row_idx, dnscolumn, dname)
 
 xbook2.save(file_name_output)
